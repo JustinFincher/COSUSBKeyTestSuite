@@ -18,10 +18,12 @@ class TestType(Enum):
 
 
 class Test:
-    TestType = TestType.NON_DEFINED
 
     def run(self):
         return False
 
     def getInfo(self):
         return "Test Base Class"
+
+    def getTestType(self):
+        return TestType.NON_DEFINED
