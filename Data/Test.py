@@ -19,11 +19,14 @@ class TestType(Enum):
 
 class Test:
 
+    @staticmethod
     def run(self):
         return False
 
-    def getInfo(self):
+    @staticmethod
+    def getInfo():
         return "Test Base Class"
 
-    def getTestType(self):
+    @staticmethod
+    def getTestType():
         return TestType.NON_DEFINED

@@ -2,11 +2,14 @@ from Data.Test import *
 
 class TEST_INIT(Test):
 
-    def run(self):
+    @staticmethod
+    def run():
         return True
 
-    def getInfo(self):
+    @staticmethod
+    def getInfo():
         return "Test Init Method"
 
-    def getTestType(self):
+    @staticmethod
+    def getTestType():
         return TestType.TEST_INIT

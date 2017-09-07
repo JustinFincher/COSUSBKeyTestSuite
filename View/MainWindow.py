@@ -7,6 +7,7 @@ from Controller.LogManager import *
 import os
 import platform
 import subprocess
+from Controller.TestManager import *
 
 class MainWindow:
 
@@ -30,10 +31,16 @@ class MainWindow:
 
             self.app.addListItem("logListBox",list(set(LogManager().arrayRepresentation()) - set(self.logList)))
 
-            self.timer = Timer(2, self.update)
-            self.timer.start()
+            self.app.clearListBox("testListBox")
+            self.app.addListItems("testListBox", TestManager().listOfInfo())
+
         except:
             print("Update Error")
+
+
+        self.timer = Timer(2, self.update)
+        self.timer.start()
+
 
 
 
@@ -78,9 +85,7 @@ class MainWindow:
         self.app.startPanedFrame("p1",)
         self.app.startLabelFrame("Tests")
         self.app.setSticky("nesw")
-        self.app.addGrid("g1",
-                    [["FileName", "TestType", "Info"],
-                     ["xx.py", "RUN_INIT", "Info here"]])
+        self.app.addListBox("testListBox", [])
         self.app.stopLabelFrame()
 
         self.app.startPanedFrame("p2")
@@ -91,8 +96,6 @@ class MainWindow:
 
         self.app.stopPanedFrame()
         self.app.stopPanedFrame()
-
-        self.update()
 
         self.timer = Timer(2, self.update)
         self.timer.start()
