@@ -9,10 +9,13 @@ class LogType(Enum):
     Error = 2
 
 class Log:
-    datetime = str(datetime.now())
+    datetime = ""
     message = ""
     logType = LogType.Info
     testType = TestType.COMMON_EVENT
+
+    def __init__(self):
+        self.datetime = str(datetime.now())
 
     def stringRepresentation(self):
         return self.datetime + " " + self.testType.name + " " + self.logType.name + " " + self.message
