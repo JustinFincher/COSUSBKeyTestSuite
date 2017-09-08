@@ -19,23 +19,37 @@ class MainWindow:
 
 
     def update(self):
-        try:
-            if DeviceManager().ifDLLPathExists():
-                self.app.setStatusbar("动态库加载于 " + DeviceManager().getDLLPath(),0)
-                LogManager().addLog("动态库加载于 " + DeviceManager().getDLLPath())
-            else:
-                self.app.setStatusbar("动态库不存在于 " + DeviceManager().getDLLPath(),0)
-                LogManager().addLog("动态库不存在于 " + DeviceManager().getDLLPath())
 
-            self.app.setStatusbar("设备个数 = " + str(DeviceManager().getDeviceCount()), 1)
+        if DeviceManager().ifDLLPathExists():
+            self.app.setStatusbar("动态库加载于 " + DeviceManager().getDLLPath(), 0)
+        else:
+            self.app.setStatusbar("动态库不存在于 " + DeviceManager().getDLLPath(), 0)
 
-            self.app.addListItem("logListBox",list(set(LogManager().arrayRepresentation()) - set(self.logList)))
+        self.app.setStatusbar("设备个数 = " + str(DeviceManager().getDeviceCount()), 1)
+        # print("currentLogIDs \n")
+        currentLogIDs = (o.getID() for o in self.logList)
+        # print(currentLogIDs)
+        # print("updatedLogIDs \n")
+        updatedLogIDs = (o.getID() for o in LogManager().logList)
+        # print(updatedLogIDs)
 
-            self.app.clearListBox("testListBox")
-            self.app.addListItems("testListBox", TestManager().listOfInfo())
+        # print("addedLogIDs \n")
+        addedLogIDs = list(set(updatedLogIDs) - set(currentLogIDs))
+        # print(addedLogIDs)
 
-        except:
-            print("Update Error")
+        addedLogs = []
+        for logID in addedLogIDs:
+            logInstance = next((x for x in LogManager().logList if x.getID() == logID), None)
+            if logInstance != None:
+                addedLogs.append(logInstance.stringRepresentation())
+
+        self.logList = LogManager().logList
+
+
+        self.app.addListItems("logListBox",addedLogs)
+
+        self.app.clearListBox("testListBox")
+        self.app.addListItems("testListBox", TestManager().listOfInfo())
 
 
         self.timer = Timer(2, self.update)
@@ -63,6 +77,11 @@ class MainWindow:
                 subprocess.Popen(["open", path])
             else:
                 subprocess.Popen(["xdg-open", path])
+        elif name == 'NEW':
+            inputString = self.app.textBox("Input APDU","APDU HERE")
+            if inputString != None:
+                dict = DeviceManager.sendAPDU(inputString)
+                print(dict)
 
         pass
 
@@ -70,10 +89,15 @@ class MainWindow:
         pass
 
     def __init__(self):
+
+        DeviceManager().loadDLL()
         self.app.setSticky("news")
         self.app.setExpand("both")
 
-        tools = ["REFRESH","OPEN" ,"SAVE", "SETTINGS", "HELP", "OFF"]
+        self.app.createMenu("Connect")
+
+
+        tools = ["REFRESH","OPEN" ,"SAVE", "SETTINGS", "HELP", "OFF","NEW"]
 
         self.app.addToolbar(tools, self.topMenuPress, findIcon=True)
 
