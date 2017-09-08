@@ -5,6 +5,7 @@ from ctypes import *
 import ctypes
 import binascii
 from Data.APDU import *
+from Data.StatCode import *
 import platform
 
 class DeviceManager(object,metaclass=Singleton):
@@ -65,7 +66,14 @@ class DeviceManager(object,metaclass=Singleton):
             pi = None
             self.dllInstance.TrasmitData(apdu.byteRepresentation(),apdu.getLength(),False,buffer,pi,0)
 
-            # get StatCode Here
+            content = buffer.raw[:pi.contents.value]
+            msg = content[pi - 4:4]
+            sw1 = content[pi - 2:2]
+            sw2 = content[pi - 2:]
+
+            statCode = StatCode(sw1,sw2)
+
+            return {"msg":msg,"statCode":statCode}
         pass
 
     def getDeviceInfo(self):

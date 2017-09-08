@@ -39,6 +39,10 @@ class StatCode:
     def __init__(self):
         pass
 
+    def __init__(self,osw1,osw2):
+        self.sw1 = osw1
+        self.sw2 = osw2
+
     @property
     def sw1(self):
         return self._sw1
