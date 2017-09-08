@@ -3,6 +3,7 @@ from Controller.DeviceManager import *
 import os, sys
 from threading import Timer
 import time
+import copy
 from Controller.LogManager import *
 import os
 import platform
@@ -32,7 +33,7 @@ class MainWindow:
         # print("updatedLogIDs \n")
         updatedLogIDs = (o.getID() for o in LogManager().logList)
         # print(updatedLogIDs)
-
+        self.logList = copy.copy(LogManager().logList)
         # print("addedLogIDs \n")
         addedLogIDs = list(set(updatedLogIDs) - set(currentLogIDs))
         # print(addedLogIDs)
@@ -42,8 +43,6 @@ class MainWindow:
             logInstance = next((x for x in LogManager().logList if x.getID() == logID), None)
             if logInstance != None:
                 addedLogs.append(logInstance.stringRepresentation())
-
-        self.logList = LogManager().logList
 
 
         self.app.addListItems("logListBox",addedLogs)
@@ -80,7 +79,7 @@ class MainWindow:
         elif name == 'NEW':
             inputString = self.app.textBox("Input APDU","APDU HERE")
             if inputString != None:
-                dict = DeviceManager.sendAPDU(inputString)
+                dict = DeviceManager().sendAPDUStr(inputString)
                 print(dict)
 
         pass
