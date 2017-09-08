@@ -8,7 +8,7 @@ class TEST_INIT(Test):
 
     @staticmethod
     def getInfo():
-        return "Test Init Method"
+        return "测试初始化"
 
     @staticmethod
     def getTestType():

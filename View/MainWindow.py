@@ -46,7 +46,7 @@ class MainWindow:
 
     def topMenuPress(self,name):
         if name == "REFRESH":
-            self.app.setStatusbar("Device Count = " + str(DeviceManager().getDeviceCount()), 1)
+            self.app.setStatusbar("设备个数 = " + str(DeviceManager().getDeviceCount()), 1)
         elif name == "HELP":
             self.app.infoBox("COS TEST TOOL 帮助", "COS USB KEY 测试软件")
         elif name == "OFF":
@@ -66,6 +66,8 @@ class MainWindow:
 
         pass
 
+    def runButtonPress(btn):
+        pass
 
     def __init__(self):
         self.app.setSticky("news")
@@ -86,6 +88,7 @@ class MainWindow:
         self.app.startLabelFrame("Tests")
         self.app.setSticky("nesw")
         self.app.addListBox("testListBox", [])
+        self.app.addButton("Run", self.runButtonPress())
         self.app.stopLabelFrame()
 
         self.app.startPanedFrame("p2")
