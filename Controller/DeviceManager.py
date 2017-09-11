@@ -94,28 +94,40 @@ class DeviceManager(object,metaclass=Singleton):
             return {"msg":msg,"statCode":statCode}
         pass
 
+    # 00 A4 00 00 02 A001 // MF
+    # 00 A4 00 00 02 2001 // ADF
     def sendAPDUStr(self, apduString):
         if self.isDLLLoaded():
 
-            buffer = ctypes.c_buffer(64)
-            pi = ctypes.c_int()
+            buffer = ctypes.create_string_buffer(128)
+            i = ctypes.c_int(128)
+            pi = pointer(i)
 
+            apduString.replace('0x', '').replace('0X', '')
+            print(apduString)
             h = bytes.fromhex(apduString)
             print(h)
-            self.dllInstance.TrasmitData(h,len(h),False,buffer,ctypes.byref(pi),0)
+            self.dllInstance.TrasmitData(h, c_int(len(h)), c_bool(False), buffer, pi, c_int(0))
 
-            print(buffer)
-            print(pi)
+            print(buffer.raw)
+            print(pi.contents.value)
             if buffer == None or pi == None:
                 return None
             else:
-                content = buffer.raw[:pi.value]
-                msg = content[len(content) - 4:4]
-                sw1 = content[len(content) - 2:2]
-                sw2 = content[len(content) - 2:]
-                statCode = StatCode(sw1,sw2)
-                return {"msg":msg,"statCode":statCode}
-        pass
+                bytesStr = buffer.raw[:pi.contents.value]
+                print(bytesStr)
+                content = str(binascii.hexlify(bytesStr).decode('utf8'))
+                print(len(content))
+                print(content)
+                if len(content) >= 4:
+                    msg = content[:len(content) - 4]
+                    sw1 = content[len(content)-4:-2]
+                    sw2 = content[-2:]
+                    statCode = StatCode(sw1,sw2)
+                    print("msg = " + str(msg) + " sw1 = " + str(sw1) + " sw2 = " + str(sw2))
+                    return {"msg":msg,"statCode":statCode}
+
+        return None
 
     def getDeviceInfo(self,index):
         if self.isDLLLoaded():
