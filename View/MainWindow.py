@@ -84,7 +84,16 @@ class MainWindow:
 
         pass
 
-    def runButtonPress(btn):
+    def runButtonPress(self,btn):
+        print("runButtonPress")
+        selected = self.app.getListItems("testListBox")
+        print(selected)
+        try:
+            for name in selected:
+                TestManager().runTest(name)
+        except:
+            pass
+
         pass
 
     def __init__(self):
@@ -111,7 +120,7 @@ class MainWindow:
         self.app.startLabelFrame("Tests")
         self.app.setSticky("nesw")
         self.app.addListBox("testListBox", [])
-        self.app.addButton("Run", self.runButtonPress())
+        self.app.addButton("Run", self.runButtonPress)
         self.app.stopLabelFrame()
 
         self.app.startPanedFrame("p2")

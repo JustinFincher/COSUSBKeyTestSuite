@@ -51,5 +51,11 @@ class TestManager(object,metaclass=Singleton):
 
         return all_subclasses
 
+    def runTest(self,name):
+        print("runTest -> " + name)
+        for test in self.testClassesList:
+            if test["Info"] == name:
+                print("test.getInfo() == name:")
+                test.run()
 
     pass

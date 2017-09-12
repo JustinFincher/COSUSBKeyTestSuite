@@ -21,6 +21,7 @@ class TestType(Enum):
 class Test:
 
     def run(self):
+        print("Test Will Run")
         return True
 
     @staticmethod
