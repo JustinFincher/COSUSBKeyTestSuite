@@ -1,1 +1,1 @@
-__all__ = ["TEST_INIT"]
+__all__ = ["TEST_INIT","TEST_SELECT_FILE"]

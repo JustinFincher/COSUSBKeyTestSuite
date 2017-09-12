@@ -11,14 +11,24 @@ class APDU(object):
     Le = ''
 
     def __init__(self, dict = dict):
-        pass
+        try:
+            self.CLA = dict["CLA"] if ('CLA' in dict and dict["CLA"]!=None) else ''
+            self.INS = dict["INS"] if ('INS' in dict and dict["INS"]!=None) else ''
+            self.P1 =  dict["P1"] if ('P1' in dict and dict["P1"]!=None) else ''
+            self.P2 = dict["P2"] if ('P2' in dict and dict["P2"]!=None) else ''
+            self.Lc =  dict["Lc"] if ('Lc' in dict and dict["Lc"]!=None) else ''
+            self.Data = dict["Data"] if ('Data' in dict and dict["Data"]!=None) else ''
+            self.Le =  dict["Le"] if ('Le' in dict and dict["Le"]!=None) else ''
+        except:
+            pass
+    pass
 
 
     def byteRepresentation(self):
         return bytes.fromhex(self.stringRepresentation())
 
     def stringRepresentation(self):
-        return self.CLA+self.INS+self.P1+self.P2
+        return '{}{}{}{}{}{}{}'.format(self.CLA, self.INS,self.P1,self.P2,self.Lc,self.Data,self.Le)
 
-    def getLength(self):
-        return 0
+    def getHexLength(self):
+        return len(self.byteRepresentation())

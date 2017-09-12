@@ -2,8 +2,8 @@ from Data.Test import *
 
 class TEST_INIT(Test):
 
-    @staticmethod
-    def run():
+    def run(self):
+        superResult = super().run()
         return True
 
     @staticmethod

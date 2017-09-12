@@ -1,5 +1,6 @@
 import os
 from enum import Enum
+from Controller.LogManager import *
 
 class TestType(Enum):
     NON_DEFINED = 0
@@ -19,9 +20,8 @@ class TestType(Enum):
 
 class Test:
 
-    @staticmethod
     def run(self):
-        return False
+        return True
 
     @staticmethod
     def getInfo():

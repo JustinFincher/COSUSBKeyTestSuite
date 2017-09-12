@@ -79,20 +79,7 @@ class DeviceManager(object,metaclass=Singleton):
                     self.connectDevice(i)
 
     def sendAPDU(self,apdu: APDU):
-        if self.isDLLLoaded():
-            buffer = None
-            pi = None
-            self.dllInstance.TrasmitData(apdu.byteRepresentation(),apdu.getLength(),False,buffer,pi,0)
-
-            content = buffer.raw[:pi.contents.value]
-            msg = content[pi - 4:4]
-            sw1 = content[pi - 2:2]
-            sw2 = content[pi - 2:]
-
-            statCode = StatCode(sw1,sw2)
-
-            return {"msg":msg,"statCode":statCode}
-        pass
+        return self.sendAPDUStr(apdu.stringRepresentation())
 
     # 00 A4 00 00 02 A001 // MF
     # 00 A4 00 00 02 2001 // ADF
