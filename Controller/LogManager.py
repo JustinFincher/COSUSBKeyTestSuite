@@ -4,6 +4,7 @@ from Data.Log import *
 import dicttoxml
 from os.path import dirname, abspath
 from Controller.Singleton import Singleton
+from Data.Test import *
 
 class LogManager(object,metaclass=Singleton):
 

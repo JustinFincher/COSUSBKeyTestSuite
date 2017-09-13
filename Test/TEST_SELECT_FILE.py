@@ -6,7 +6,7 @@ class TEST_SELECT_FILE(Test):
 
     def run(self):
         superResult = super().run()
-
+        print("TEST_SELECT_FILE run()")
         res = True
 
         testResList = []
@@ -40,9 +40,18 @@ class TEST_SELECT_FILE(Test):
         return TestType.TEST_SELECT_FILE
 
     def getSelectFileBool(self,pos):
-        dict = Helper.getSelectFileDict(pos)
-        if (dict != None) and ('statCode' in dict):
-            statCode = dict["statCode"]
-            if statCode == StatCodeType.STAT_CODE_SUCCESS:
-                return True
-        return False
+        LogManager().addLog("getSelectFileBool " + str(pos))
+        print("getSelectFileBool " + str(pos))
+
+        res = False
+        try:
+            dict = Helper().getSelectFileDict(pos)
+            if (dict != None) and ('statCode' in dict):
+                statCode = dict["statCode"]
+                if statCode == StatCodeType.STAT_CODE_SUCCESS:
+                    res = True
+        except:
+            print("Bug")
+            pass
+        finally:
+            return res

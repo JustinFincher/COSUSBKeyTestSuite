@@ -28,7 +28,9 @@ class APDU(object):
         return bytes.fromhex(self.stringRepresentation())
 
     def stringRepresentation(self):
-        return '{}{}{}{}{}{}{}'.format(self.CLA, self.INS,self.P1,self.P2,self.Lc,self.Data,self.Le)
+        stringRep = '{}{}{}{}{}{}{}'.format(self.CLA, self.INS,self.P1,self.P2,self.Lc,self.Data,self.Le)
+        print(stringRep)
+        return stringRep
 
     def getHexLength(self):
         return len(self.byteRepresentation())

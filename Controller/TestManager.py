@@ -3,6 +3,7 @@ from os.path import dirname, abspath
 from Data.Test import *
 import os
 from Test import *
+from Controller.LogManager import *
 
 class TestManager(object,metaclass=Singleton):
 
@@ -18,7 +19,7 @@ class TestManager(object,metaclass=Singleton):
         self.testClassesList.clear()
         classes = self.getALlTestSubClasses()
         for cls in classes:
-            dict = {"Info": cls.getInfo(), "TestType": cls.getTestType(), "Class": str(cls)}
+            dict = {"Info": cls.getInfo(), "TestType": cls.getTestType(), "Class": cls}
             self.testClassesList.append(dict)
         print(self.testClassesList)
 
@@ -56,6 +57,8 @@ class TestManager(object,metaclass=Singleton):
         for test in self.testClassesList:
             if test["Info"] == name:
                 print("test.getInfo() == name:")
-                test.run()
+                result = test["Class"]().run()
+                LogManager.addLog("Test Run Finished With Result = "+str(result))
+                print("Test Run Finished With Result = "+str(result))
 
     pass

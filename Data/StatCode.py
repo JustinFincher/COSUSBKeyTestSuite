@@ -75,15 +75,15 @@ class StatCode:
         if (self.sw1 == None or self.sw2 == None):
             return
 
-        if self.sw1 == '0x90':
+        if self.sw1 == '90':
             self.statCode = StatCodeType.STAT_CODE_SUCCESS
-        elif self.sw1 == '0x63':
+        elif self.sw1 == '63':
             self.statCode = StatCodeType.STAT_CODE_PIN_VALIDATE_FAILURE_REMAIN_TRY_COUNT
-        elif self.sw1 == '0x64':
+        elif self.sw1 == '64':
             self.statCode = StatCodeType.STAT_CODE_OUTPUT_RULE_NOT_MEET
-        elif self.sw1 == '0x65':
+        elif self.sw1 == '65':
             self.statCode = StatCodeType.STAT_CODE_WRITE_FAILURE
-        elif self.sw1 == '0x67':
+        elif self.sw1 == '67':
             self.statCode = StatCodeType.STAT_CODE_DATE_LENGTH_ERR
 
 

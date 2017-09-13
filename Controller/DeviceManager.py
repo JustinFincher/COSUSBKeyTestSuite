@@ -78,7 +78,7 @@ class DeviceManager(object,metaclass=Singleton):
                     print("self.connectDevice("+ str(i) + ")")
                     self.connectDevice(i)
 
-    def sendAPDU(self,apdu: APDU):
+    def sendAPDU(self,apdu):
         return self.sendAPDUStr(apdu.stringRepresentation())
 
     # 00 A4 00 00 02 A001 // MF
@@ -92,14 +92,15 @@ class DeviceManager(object,metaclass=Singleton):
             pi = pointer(i)
 
             apduString.upper().replace('0X', '')
-            print(apduString)
+            print("sendAPDUStr()  " + apduString)
             h = bytes.fromhex(apduString)
-            print(h)
+            print("Hex = " + str(h))
             self.dllInstance.TrasmitData(h, c_int(len(h)), c_bool(False), buffer, pi, c_int(0))
 
-            print(buffer.raw)
-            print(pi.contents.value)
+            print("buffer = " + str(buffer.raw))
+            print("pi.contents.value = " + str(pi.contents.value))
             if buffer == None or pi == None:
+                print("buffer == None or pi == None:")
                 return None
             else:
                 bytesStr = buffer.raw[:pi.contents.value]

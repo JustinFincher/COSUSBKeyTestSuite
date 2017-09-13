@@ -42,10 +42,18 @@ class Helper(object,metaclass=Singleton):
 
 
     def getMd5HashHex(self,inputStr):
-        return hashlib.md5(inputStr).hexdigest()
+        print("getMd5HashHex")
+        print(inputStr)
+        print(inputStr.encode())
+        print(inputStr.encode('utf-8'))
+
+
+        hexStr = hashlib.md5(inputStr.encode('utf-8')).hexdigest()
+        print(hexStr)
+        return str(hexStr)
 
     def getChallengeMsg(self):
-        LogManager().addLog("Geting Challenge")
+        LogManager().addLog("Getting Challenge")
         apdu = APDU({"CLA":"00",
                      "INS":"84",
                      "P1":"00",
@@ -54,8 +62,10 @@ class Helper(object,metaclass=Singleton):
                      "Data":None,
                      "Le":"08"})
         dict = DeviceManager().sendAPDU(apdu)
+        print("getChallengeMsg Dict =")
+        print(dict)
         if (dict != None) and ('statCode' in dict):
-            statCode = dict["statCode"]
+            statCode = dict["statCode"].statCode
             if statCode == StatCodeType.STAT_CODE_SUCCESS:
                 return dict["msg"]
 
@@ -63,6 +73,7 @@ class Helper(object,metaclass=Singleton):
 
     def getSelectFileDict(self,pos):
         LogManager().addLog("Selecting File")
+        print("Selecting File with Pos" + str(pos))
         apdu = APDU({"CLA": "00",
                      "INS": "A4",
                      "P1": "00",
@@ -73,13 +84,42 @@ class Helper(object,metaclass=Singleton):
         dict = DeviceManager().sendAPDU(apdu)
         return dict
 
+
+    def getVerifyPinDict(self,data):
+        apdu = APDU({"CLA": "00",
+                     "INS": "82",
+                     "P1": "00",
+                     "P2": "01",
+                     "Lc": "08",
+                     "Data": data,
+                     "Le": None})
+
+        print("getVerifyPinDict apdu = " + apdu.stringRepresentation())
+        dict = DeviceManager().sendAPDU(apdu)
+        print("getVerifyPinDict Dict = " + str(dict))
+        return dict
+
     def getSelectPKIADFDict(self):
         mfDict = self.getSelectFileDict(FileLocationType.MF)
         if (mfDict != None) and ('statCode' in mfDict):
-            statCode = mfDict["statCode"]
+            statCode = mfDict["statCode"].statCode
             if statCode == StatCodeType.STAT_CODE_SUCCESS:
                 adfDict = self.getSelectFileDict(FileLocationType.ADF)
                 return adfDict
         return None
+
+    def getPubKeyDict(self,KID):
+        apdu = APDU({"CLA": "80",
+                     "INS": "E6",
+                     "P1": "2A",
+                     "P2": "01",
+                     "Lc": "08",
+                     "Data": KID,
+                     "Le": "FF"})
+
+        print("getPubKeyDict apdu = " + apdu.stringRepresentation())
+        dict = DeviceManager().sendAPDU(apdu)
+        print("getPubKeyDict Dict = " + str(dict))
+        return dict
 
     pass
