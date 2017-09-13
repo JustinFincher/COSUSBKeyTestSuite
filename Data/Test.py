@@ -12,7 +12,7 @@ class TestType(Enum):
     TEST_CHANGE_PIN = 6
     TEST_READ_PUB_KEY = 7
     TEST_GEN_PAR = 8
-    TEST_RSA = 9
+    TEST_RSA_LOCK_UNLOCK = 9
     TEST_RSA_SIGN = 10
     TEST_RANDOM_NUM = 11
     COMMON_EVENT = 12

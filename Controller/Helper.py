@@ -122,4 +122,18 @@ class Helper(object,metaclass=Singleton):
         print("getPubKeyDict Dict = " + str(dict))
         return dict
 
+    def getMSEGenParDict(self):
+        apdu = APDU({"CLA": "80",
+                     "INS": "E6",
+                     "P1": "2A",
+                     "P2": "01",
+                     "Lc": "08",
+                     "Data": "ff",
+                     "Le": "FF"})
+
+        print("getPubKeyDict apdu = " + apdu.stringRepresentation())
+        dict = DeviceManager().sendAPDU(apdu)
+        print("getPubKeyDict Dict = " + str(dict))
+        return dict
+
     pass
