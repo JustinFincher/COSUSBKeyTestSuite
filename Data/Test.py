@@ -9,7 +9,7 @@ class TestType(Enum):
     TEST_BINARY_WRITE = 3
     TEST_INIT = 4
     TEST_VALIDATE_PIN = 5
-    TEST_CHANGE_PIN = 6
+    TEST_MODIFY_PIN = 6
     TEST_READ_PUB_KEY = 7
     TEST_GEN_PAR = 8
     TEST_RSA_LOCK_UNLOCK = 9
