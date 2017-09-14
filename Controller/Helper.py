@@ -128,12 +128,12 @@ class Helper(object,metaclass=Singleton):
         raise NotImplementedError("Too LAZY to do this")
         pass
 
-    def getMSEGenParDict(self,KID = "00",usage = "22"):
+    def getMSEGenParDict(self,KID = "00",usage = "22", additionLength = 4):
         apdu = APDU({"CLA": "00",
                      "INS": "22",
                      "P1": "01",
                      "P2": "B8",
-                     "Lc": "06",
+                     "Lc": '{:02X}'.format(4 + additionLength),
                      "Data": "8302" + KID + usage,
                      "Le": None})
 

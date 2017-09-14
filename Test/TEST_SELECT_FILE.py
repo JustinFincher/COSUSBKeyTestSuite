@@ -14,18 +14,6 @@ class TEST_SELECT_FILE(Test):
         testResList.append(self.getSelectFileBool(FileLocationType.ADF))
         testResList.append(self.getSelectFileBool(FileLocationType.IKF))
 
-        testResList.append(self.getSelectFileBool(FileLocationType.MF))
-        testResList.append(self.getSelectFileBool(FileLocationType.GPKF))
-
-        testResList.append(self.getSelectFileBool(FileLocationType.MF))
-        testResList.append(self.getSelectFileBool(FileLocationType.EFTokenInfo))
-
-        testResList.append(self.getSelectFileBool(FileLocationType.MF))
-        testResList.append(self.getSelectFileBool(FileLocationType.EFPublic))
-
-        testResList.append(self.getSelectFileBool(FileLocationType.MF))
-        testResList.append(self.getSelectFileBool(FileLocationType.EFPrivate))
-
         for isSuccessful in testResList:
             res = res and isSuccessful
 

@@ -36,8 +36,6 @@ class Test:
         from Controller.Helper import Helper
         from Controller.LogManager import LogManager
 
-        LogManager().addLogStr("getSelectFileBool " + str(pos))
-
         res = False
         try:
             dict = Helper().getSelectFileDict(pos)
@@ -49,5 +47,8 @@ class Test:
         except:
             pass
         finally:
-            print("getSelectFileBool " + str(pos) + "YES" if res else "NO")
+
+            resStr = "YES" if res else "NO"
+            LogManager().addLogStr("getSelectFileBool " + str(pos) + " Result = " + str(resStr))
+            print("getSelectFileBool " + str(pos) + str(resStr))
             return res

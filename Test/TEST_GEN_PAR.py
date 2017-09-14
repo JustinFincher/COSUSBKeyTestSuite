@@ -8,7 +8,10 @@ class TEST_GEN_PAR(Test):
     def run(self):
         superResult = super().run()
 
+        from Data.Log import LogType
+
         # SELECT MF
+        LogManager().addLogStr("WILL SELECT MF",LogType.Info,self.getTestType())
         dict = Helper().getSelectFileDict(FileLocationType.MF)
         if (dict != None) and ('statCode' in dict):
             statCode = dict["statCode"].statCode
@@ -16,7 +19,7 @@ class TEST_GEN_PAR(Test):
                 return False
 
         # VALIDATE PIN
-
+        LogManager().addLogStr("WILL VALIDATE PIN", LogType.Info, self.getTestType())
         pin = "1234"
         hexifiedPin = Helper().getMd5HashHex(pin)
         print(hexifiedPin)
@@ -49,13 +52,20 @@ class TEST_GEN_PAR(Test):
             return False
 
         # MSE
-        dict = Helper().getMSEGenParDict("00", "22")
+        LogManager().addLogStr("WILL SET UP MSE", LogType.Info, self.getTestType())
+        dict = Helper().getMSEGenParDict("00", "22", 4)
         if (dict != None) and ('statCode' in dict):
             statCode = dict["statCode"].statCode
             if statCode != StatCodeType.STAT_CODE_SUCCESS:
                 return False
 
+        # GET CHALLENGE
+        # LogManager().addLogStr("WILL GET CHALLENGE", LogType.Info, self.getTestType())
+        # challenge = Helper().getChallengeMsg()
+        # LogManager().addLogStr("CHALLENGE = " + str(challenge), LogType.Info, self.getTestType())
+
         # GEN PAR
+        LogManager().addLogStr("WILL GEN PAIR", LogType.Info, self.getTestType())
         dict = Helper().getGenKeyPairDict()
         if (dict != None) and ('statCode' in dict):
             statCode = dict["statCode"].statCode

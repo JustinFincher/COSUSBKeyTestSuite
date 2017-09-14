@@ -88,6 +88,8 @@ class DeviceManager(object,metaclass=Singleton):
     # 00 A4 00 00 02 2001 // ADF
     # 00 A4 00 00 02 A001 // EF
     def sendAPDUStr(self, apduString):
+        from Controller.LogManager import LogManager
+
         print("sendAPDUStr(" + apduString + ")")
         if self.isDLLLoaded():
 
