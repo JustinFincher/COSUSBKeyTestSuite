@@ -131,7 +131,7 @@ class MainWindow:
         self.app.stopPanedFrame()
         self.app.stopPanedFrame()
 
-        self.timer = Timer(2, self.update)
+        self.timer = Timer(0.2, self.update)
         self.timer.start()
 
         self.app.go()

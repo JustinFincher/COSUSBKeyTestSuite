@@ -152,3 +152,5 @@ ENV/
 Tools/
 .idea/COSUSBKeyTest.iml
 .idea/workspace.xml
+COSUSBKeyTest.iml
+misc.xml
