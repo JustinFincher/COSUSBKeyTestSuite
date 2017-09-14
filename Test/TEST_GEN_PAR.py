@@ -11,7 +11,7 @@ class TEST_GEN_PAR(Test):
         res = False
         dict = Helper().getSelectFileDict(FileLocationType.MF)
         if (dict != None) and ('statCode' in dict):
-            statCode = dict["statCode"]
+            statCode = dict["statCode"].statCode
             if statCode == StatCodeType.STAT_CODE_SUCCESS:
                 res = True
 

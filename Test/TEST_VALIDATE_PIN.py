@@ -31,7 +31,7 @@ class TEST_VALIDATE_PIN(Test):
         print("pyRes = " + str(pyRes))
         print("pyRes.hex() = " + str(pyRes.hex()))
         resDict = Helper().getVerifyPinDict(pyRes.hex())
-        if resDict["statCode"] == StatCodeType.STAT_CODE_SUCCESS:
+        if resDict["statCode"].statCode == StatCodeType.STAT_CODE_SUCCESS:
             print("TEST_VALIDATE_PIN TRUE")
             return True
         else:
@@ -55,7 +55,7 @@ class TEST_VALIDATE_PIN(Test):
         try:
             dict = Helper().getSelectFileDict(pos)
             if (dict != None) and ('statCode' in dict):
-                statCode = dict["statCode"]
+                statCode = dict["statCode"].statCode
                 if statCode == StatCodeType.STAT_CODE_SUCCESS:
                     res = True
         except:

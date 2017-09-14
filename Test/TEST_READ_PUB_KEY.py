@@ -10,13 +10,13 @@ class TEST_READ_PUB_KEY(Test):
 
         dict = Helper().getSelectFileDict(FileLocationType.MF)
         if (dict != None) and ('statCode' in dict):
-            statCode = dict["statCode"]
+            statCode = dict["statCode"].statCode
             if statCode != StatCodeType.STAT_CODE_SUCCESS:
                 return False
 
         dict = Helper().getSelectFileDict(FileLocationType.ADF)
         if (dict != None) and ('statCode' in dict):
-            statCode = dict["statCode"]
+            statCode = dict["statCode"].statCode
             if statCode != StatCodeType.STAT_CODE_SUCCESS:
                 return False
 

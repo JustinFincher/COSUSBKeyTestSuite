@@ -87,8 +87,7 @@ class MainWindow:
         if DeviceManager().getDeviceCount() <= 0:
             self.app.warningBox("当前无设备链接", "请插入 USB KEY")
             return
-        
-        print("runButtonPress")
+
         selected = self.app.getListItems("testListBox")
         print(selected)
         try:

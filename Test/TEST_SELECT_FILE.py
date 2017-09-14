@@ -47,7 +47,7 @@ class TEST_SELECT_FILE(Test):
         try:
             dict = Helper().getSelectFileDict(pos)
             if (dict != None) and ('statCode' in dict):
-                statCode = dict["statCode"]
+                statCode = dict["statCode"].statCode
                 if statCode == StatCodeType.STAT_CODE_SUCCESS:
                     res = True
         except:
