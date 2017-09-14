@@ -22,7 +22,4 @@ class Log:
         return str(self.datetime.strftime('%Y-%m-%d-%H-%M-%S-%f')) + " " + self.testType.name + " " + self.logType.name + " " + self.message
 
     def getID(self):
-        return self.TimestampMillisec64()
-
-    def TimestampMillisec64(self):
-        return int((self.datetime - datetime(1970, 1, 1)).total_seconds() * 1000)
+        return self.stringRepresentation()
