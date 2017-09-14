@@ -83,6 +83,11 @@ class MainWindow:
         pass
 
     def runButtonPress(self,btn):
+
+        if DeviceManager().getDeviceCount() <= 0:
+            self.app.warningBox("当前无设备链接", "请插入 USB KEY")
+            return
+        
         print("runButtonPress")
         selected = self.app.getListItems("testListBox")
         print(selected)
@@ -90,7 +95,7 @@ class MainWindow:
             for name in selected:
                 TestManager().runTest(name)
         except:
-            LogManager().addLogStr("ERROR WHEN RUN TEST",LogType.Error,TestType.COMMON_EVENT)
+            # LogManager().addLogStr("ERROR WHEN RUN TEST",LogType.Error,TestType.COMMON_EVENT)
             pass
 
         pass
