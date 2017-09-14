@@ -123,13 +123,17 @@ class Helper(object,metaclass=Singleton):
         print("getPubKeyDict Dict = " + str(dict))
         return dict
 
-    def getMSEGenParDict(self,KID):
+    def getMSESignDict(self, KID):
+        raise NotImplementedError("Too LAZY to do this")
+        pass
+
+    def getMSEGenParDict(self,KID = "00",usage = "22"):
         apdu = APDU({"CLA": "00",
                      "INS": "22",
                      "P1": "01",
                      "P2": "B8",
                      "Lc": "06",
-                     "Data": "8302" + KID,
+                     "Data": "8302" + KID + usage,
                      "Le": None})
 
         print("getPubKeyDict apdu = " + apdu.stringRepresentation())
@@ -163,5 +167,19 @@ class Helper(object,metaclass=Singleton):
         print("getBinaryReadDict apdu = " + apdu.stringRepresentation())
         dict = DeviceManager().sendAPDU(apdu)
         print("getBinaryReadDict Dict = " + str(dict))
+        return dict
+    pass
+
+    def getGenKeyPairDict(self):
+        apdu = APDU({"CLA": "00",
+                     "INS": "46",
+                     "P1": "00",
+                     "P2": "00",
+                     "Lc": "02",
+                     "Data": "0400",
+                     "Le": None})
+        print("getGenKeyPairDict apdu = " + apdu.stringRepresentation())
+        dict = DeviceManager().sendAPDU(apdu)
+        print("getGenKeyPairDict Dict = " + str(dict))
         return dict
     pass
