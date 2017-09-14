@@ -46,20 +46,3 @@ class TEST_VALIDATE_PIN(Test):
     @staticmethod
     def getTestType():
         return TestType.TEST_VALIDATE_PIN
-
-    def getSelectFileBool(self,pos):
-        LogManager().addLogStr("getSelectFileBool " + str(pos))
-        print("getSelectFileBool " + str(pos))
-
-        res = False
-        try:
-            dict = Helper().getSelectFileDict(pos)
-            if (dict != None) and ('statCode' in dict):
-                statCode = dict["statCode"].statCode
-                if statCode == StatCodeType.STAT_CODE_SUCCESS:
-                    res = True
-        except:
-            print("Bug")
-            pass
-        finally:
-            return res

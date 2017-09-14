@@ -1,11 +1,10 @@
 import os
 from datetime import datetime
-from Data.Log import *
 import dicttoxml
 from os.path import dirname, abspath
 from Data.Test import TestType
 from Controller.Singleton import Singleton
-from Data.Test import *
+from Data.Log import *
 
 class LogManager(object,metaclass=Singleton):
 

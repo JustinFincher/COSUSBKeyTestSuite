@@ -3,9 +3,10 @@ import hashlib
 from Controller.Singleton import *
 from Data.APDU import *
 from Controller.DeviceManager import *
-from Controller.LogManager import *
+from Controller.LogManager import LogManager
 from Data.StatCode import *
 from enum import Enum
+from Controller.LogManager import *
 from datetime import datetime, timedelta
 from Data.Test import *
 import time
@@ -108,14 +109,14 @@ class Helper(object,metaclass=Singleton):
                 return adfDict
         return None
 
-    def getPubKeyDict(self,KID):
+    def getPubKeyDict(self,KID = "00"):
         LogManager().addLogStr("Getting Public Key Dict For KID = " + str(KID))
         apdu = APDU({"CLA": "80",
                      "INS": "E6",
                      "P1": "2A",
-                     "P2": "01",
-                     "Lc": "08",
-                     "Data": KID,
+                     "P2": KID,
+                     "Lc": None,
+                     "Data": None,
                      "Le": "FF"})
 
         print("getPubKeyDict apdu = " + apdu.stringRepresentation())

@@ -1,6 +1,6 @@
 import os
 from enum import Enum
-from Controller.LogManager import *
+from Controller.DeviceManager import *
 
 class TestType(Enum):
     NON_DEFINED = 0
@@ -31,3 +31,23 @@ class Test:
     @staticmethod
     def getTestType():
         return TestType.NON_DEFINED
+
+    def getSelectFileBool(self,pos):
+        from Controller.Helper import Helper
+        from Controller.LogManager import LogManager
+
+        LogManager().addLogStr("getSelectFileBool " + str(pos))
+
+        res = False
+        try:
+            dict = Helper().getSelectFileDict(pos)
+            if (dict != None) and ('statCode' in dict):
+                print(dict)
+                statCode = dict["statCode"].statCode
+                if statCode == StatCodeType.STAT_CODE_SUCCESS:
+                    res = True
+        except:
+            pass
+        finally:
+            print("getSelectFileBool " + str(pos) + "YES" if res else "NO")
+            return res

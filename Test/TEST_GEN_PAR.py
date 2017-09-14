@@ -32,6 +32,9 @@ class TEST_GEN_PAR(Test):
         mfRes = self.getSelectFileBool(FileLocationType.MF)
         adfRes = self.getSelectFileBool(FileLocationType.ADF)
 
+        print(mfRes)
+        print(adfRes)
+
         bytesRandom = bytes.fromhex(randomMsg)
         print("ByteRandom = " + str(bytesRandom))
         print("bytes.fromhex(hexifiedPin) = " + str(bytes.fromhex(hexifiedPin)))
@@ -53,6 +56,11 @@ class TEST_GEN_PAR(Test):
                 return False
 
         # GEN PAR
+        dict = Helper().getGenKeyPairDict()
+        if (dict != None) and ('statCode' in dict):
+            statCode = dict["statCode"].statCode
+            if statCode != StatCodeType.STAT_CODE_SUCCESS:
+                return False
 
         return True
 

@@ -1,8 +1,8 @@
 import os
 from enum import Enum
 from datetime import datetime, timedelta
-from Data.Test import *
 import time
+from Data.Test import *
 from Library.GS_timing import *
 
 class LogType(Enum):
