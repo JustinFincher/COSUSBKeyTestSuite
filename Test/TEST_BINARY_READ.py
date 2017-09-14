@@ -31,7 +31,7 @@ class TEST_BINARY_READ(Test):
 
         LogManager().addLogStr("NAVIGATE TO EF TOKEN INFO", LogType.Info, self.getTestType())
 
-        dict = Helper.getBinaryReadDict()
+        dict = Helper().getBinaryReadDict("00","00")
         if (dict != None) and ('statCode' in dict):
             statCode = dict["statCode"].statCode
             if statCode != StatCodeType.STAT_CODE_SUCCESS:

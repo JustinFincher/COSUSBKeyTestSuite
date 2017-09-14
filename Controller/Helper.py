@@ -137,17 +137,31 @@ class Helper(object,metaclass=Singleton):
         print("getPubKeyDict Dict = " + str(dict))
         return dict
 
-    def getBinaryReadDict(self):
+    def getBinaryReadDict(self,p1,p2,length = "08"):
         apdu = APDU({"CLA": "00",
                      "INS": "B0",
-                     "P1": "00",
-                     "P2": "00",
+                     "P1": p1,
+                     "P2": p2,
                      "Lc": None,
                      "Data": None,
-                     "Le": "10"})
+                     "Le": length})
         print("getBinaryReadDict apdu = " + apdu.stringRepresentation())
         dict = DeviceManager().sendAPDU(apdu)
         print("getBinaryReadDict Dict = " + str(dict))
         return dict
 
+    pass
+
+    def getBinaryWriteDict(self,p1,p2,data):
+        apdu = APDU({"CLA": "00",
+                     "INS": "D6",
+                     "P1": p1,
+                     "P2": p2,
+                     "Lc": '{:02X}'.format(len(data)),
+                     "Data": data,
+                     "Le": None})
+        print("getBinaryReadDict apdu = " + apdu.stringRepresentation())
+        dict = DeviceManager().sendAPDU(apdu)
+        print("getBinaryReadDict Dict = " + str(dict))
+        return dict
     pass
