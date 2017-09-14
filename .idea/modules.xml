@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/COSUSBKeyTest.iml" filepath="$PROJECT_DIR$/.idea/COSUSBKeyTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/COSUSBKeyTestSuite.iml" filepath="$PROJECT_DIR$/.idea/COSUSBKeyTestSuite.iml" />
     </modules>
   </component>
 </project>
