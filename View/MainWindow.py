@@ -90,6 +90,7 @@ class MainWindow:
             for name in selected:
                 TestManager().runTest(name)
         except:
+            LogManager().addLogStr("ERROR WHEN RUN TEST",LogType.Error,TestType.COMMON_EVENT)
             pass
 
         pass

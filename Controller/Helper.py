@@ -89,7 +89,7 @@ class Helper(object,metaclass=Singleton):
         apdu = APDU({"CLA": "00",
                      "INS": "82",
                      "P1": "00",
-                     "P2": "01",
+                     "P2": "00",
                      "Lc": "08",
                      "Data": data,
                      "Le": None})

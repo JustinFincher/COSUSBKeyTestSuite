@@ -98,7 +98,7 @@ class DeviceManager(object,metaclass=Singleton):
             apduString.upper().replace('0X', '')
             print("sendAPDUStr()  " + apduString)
             h = bytes.fromhex(apduString)
-            print("Hex = " + str(h))
+            # print("Hex = " + str(h))
             self.dllInstance.TrasmitData(h, c_int(len(h)), c_bool(False), buffer, pi, c_int(0))
 
             print("buffer = " + str(buffer.raw))
