@@ -8,6 +8,8 @@ from Data.APDU import *
 from Data.StatCode import *
 from Controller.LogManager import *
 import platform
+from Data.Log import *
+from Data.Test import *
 
 class DeviceManager(object,metaclass=Singleton):
 
@@ -43,7 +45,7 @@ class DeviceManager(object,metaclass=Singleton):
             count = 0
 
         if self.deviceCountCache != count:
-            LogManager().addLog("链接设备个数为 " + str(count))
+            LogManager().addLogStr("链接设备个数为 " + str(count))
             if count > 0:
                 self.deviceCountCache = count
                 self.connectDeviceAll()
@@ -55,7 +57,7 @@ class DeviceManager(object,metaclass=Singleton):
     def loadDLL(self):
         if self.ifDLLPathExists():
             self.dllInstance = ctypes.WinDLL(self.getDLLPath())
-            LogManager().addLog("动态库加载于 " + DeviceManager().getDLLPath())
+            LogManager().addLogStr("动态库加载于 " + DeviceManager().getDLLPath())
         else:
             print("ifDLLPathExists = NO")
         pass
@@ -67,24 +69,26 @@ class DeviceManager(object,metaclass=Singleton):
             # print(self.dllInstance.ConnectDevice(self.dllInstance.GetDevInfo(index)))
             if self.dllInstance.ConnectDevice(index) == 0:
                 print("连接 " + str(index) + " 号设备成功")
-                LogManager().addLog(("连接 " + str(index) + " 号设备成功"))
+                LogManager().addLogStr(("连接 " + str(index) + " 号设备成功"))
 
     def connectDeviceAll(self):
         if self.isDLLLoaded():
             if self.deviceCountCache >= 1:
                 print("self.deviceCountCache >= 1:")
                 for i in range(0,self.deviceCountCache):
-                    LogManager().addLog("连接 " + str(i) + " 号设备")
+                    LogManager().addLogStr("连接 " + str(i) + " 号设备")
                     print("self.connectDevice("+ str(i) + ")")
                     self.connectDevice(i)
 
     def sendAPDU(self,apdu):
+        print("sendAPDU")
         return self.sendAPDUStr(apdu.stringRepresentation())
 
     # 00 A4 00 00 02 A001 // MF
     # 00 A4 00 00 02 2001 // ADF
     # 00 A4 00 00 02 A001 // EF
     def sendAPDUStr(self, apduString):
+        print("sendAPDUStr(" + apduString + ")")
         if self.isDLLLoaded():
 
             buffer = ctypes.create_string_buffer(512)
@@ -104,10 +108,9 @@ class DeviceManager(object,metaclass=Singleton):
                 return None
             else:
                 bytesStr = buffer.raw[:pi.contents.value]
-                print(bytesStr)
+                print("bytesStr = " + str(bytesStr))
                 content = str(binascii.hexlify(bytesStr).decode('utf8'))
-                print(len(content))
-                print(content)
+                print("Content = " + str(content) + " Length = " + str(len(content)))
                 if len(content) >= 4:
                     msg = content[:len(content) - 4]
                     sw1 = content[len(content)-4:-2]
@@ -115,7 +118,9 @@ class DeviceManager(object,metaclass=Singleton):
                     statCode = StatCode(sw1,sw2)
                     print("msg = " + str(msg) + " sw1 = " + str(sw1) + " sw2 = " + str(sw2))
                     return {"msg":msg,"statCode":statCode}
-
+        else:
+            print("ERR self.isDLLLoaded() = FALSE")
+            LogManager().addLogStr("DLL is not Loaded", LogType.Error, TestType.COMMON_EVENT)
         return None
 
     def getDeviceInfo(self,index):

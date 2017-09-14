@@ -28,30 +28,28 @@ class MainWindow:
 
         self.app.setStatusbar("设备个数 = " + str(DeviceManager().getDeviceCount()), 1)
         # print("currentLogIDs \n")
-        currentLogIDs = (o.getID() for o in self.logList)
-        # print(currentLogIDs)
-        # print("updatedLogIDs \n")
-        updatedLogIDs = (o.getID() for o in LogManager().logList)
-        # print(updatedLogIDs)
+        currentLogIDs = [o.getID() for o in self.logList]
+        updatedLogIDs = [o.getID() for o in LogManager().logList]
         self.logList = copy.copy(LogManager().logList)
-        # print("addedLogIDs \n")
-        addedLogIDs = list(set(updatedLogIDs) - set(currentLogIDs))
-        # print(addedLogIDs)
+        addedLogIDs = [item for item in updatedLogIDs if item not in currentLogIDs]
+
+        print(str(len(currentLogIDs)) + " " + str(len(updatedLogIDs)) + " " + str(len(addedLogIDs)))
 
         addedLogs = []
         for logID in addedLogIDs:
-            logInstance = next((x for x in LogManager().logList if x.getID() == logID), None)
+            logInstance = next((item for item in self.logList if item.getID() == logID),None)
             if logInstance != None:
                 addedLogs.append(logInstance.stringRepresentation())
 
-
         self.app.addListItems("logListBox",addedLogs)
 
+        selected = self.app.getListItems("testListBox")
         self.app.clearListBox("testListBox")
         self.app.addListItems("testListBox", TestManager().listOfInfo())
+        self.app.selectListItem("testListBox",selected)
 
 
-        self.timer = Timer(2, self.update)
+        self.timer = Timer(0.5, self.update)
         self.timer.start()
 
 

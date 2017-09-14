@@ -40,7 +40,7 @@ class TEST_SELECT_FILE(Test):
         return TestType.TEST_SELECT_FILE
 
     def getSelectFileBool(self,pos):
-        LogManager().addLog("getSelectFileBool " + str(pos))
+        LogManager().addLogStr("getSelectFileBool " + str(pos))
         print("getSelectFileBool " + str(pos))
 
         res = False

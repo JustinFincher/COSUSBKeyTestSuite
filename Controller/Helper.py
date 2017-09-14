@@ -53,7 +53,7 @@ class Helper(object,metaclass=Singleton):
         return str(hexStr)
 
     def getChallengeMsg(self):
-        LogManager().addLog("Getting Challenge")
+        LogManager().addLogStr("Getting Challenge")
         apdu = APDU({"CLA":"00",
                      "INS":"84",
                      "P1":"00",
@@ -72,7 +72,7 @@ class Helper(object,metaclass=Singleton):
         return None
 
     def getSelectFileDict(self,pos):
-        LogManager().addLog("Selecting File")
+        LogManager().addLogStr("Selecting File For Pos:" + str(pos))
         print("Selecting File with Pos" + str(pos))
         apdu = APDU({"CLA": "00",
                      "INS": "A4",
@@ -109,6 +109,7 @@ class Helper(object,metaclass=Singleton):
         return None
 
     def getPubKeyDict(self,KID):
+        LogManager().addLogStr("Getting Public Key Dict For KID = " + str(KID))
         apdu = APDU({"CLA": "80",
                      "INS": "E6",
                      "P1": "2A",
@@ -122,14 +123,14 @@ class Helper(object,metaclass=Singleton):
         print("getPubKeyDict Dict = " + str(dict))
         return dict
 
-    def getMSEGenParDict(self):
-        apdu = APDU({"CLA": "80",
-                     "INS": "E6",
-                     "P1": "2A",
-                     "P2": "01",
-                     "Lc": "08",
-                     "Data": "ff",
-                     "Le": "FF"})
+    def getMSEGenParDict(self,KID):
+        apdu = APDU({"CLA": "00",
+                     "INS": "22",
+                     "P1": "01",
+                     "P2": "B8",
+                     "Lc": "06",
+                     "Data": "8302" + KID,
+                     "Le": None})
 
         print("getPubKeyDict apdu = " + apdu.stringRepresentation())
         dict = DeviceManager().sendAPDU(apdu)

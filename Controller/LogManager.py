@@ -17,6 +17,7 @@ class LogManager(object,metaclass=Singleton):
         pass
 
     def newLogs(self):
+        print("New Logs Inited, All List will be cleared")
         self.logList.clear()
         self.currentLogPath = self.getNewFilePath()
 
@@ -47,7 +48,8 @@ class LogManager(object,metaclass=Singleton):
     def addLog(self, newLog):
         self.logList.append(newLog)
 
-    def addLog(self,message,logtype = LogType.Info,testtype = TestType.COMMON_EVENT):
+    def addLogStr(self, message, logtype = LogType.Info, testtype = TestType.COMMON_EVENT):
+        print("ADD LOG STR WITH MSG: " + message)
         log = Log()
         log.message = message
         log.logType = logtype

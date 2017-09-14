@@ -16,11 +16,13 @@ class Log:
     testType = TestType.COMMON_EVENT
 
     def __init__(self):
-        self.datetime = time.time()
+        self.datetime = datetime.now()
 
     def stringRepresentation(self):
-        return datetime.fromtimestamp(self.datetime).strftime('%Y-%m-%d-%H-%M-%S') + " " + self.testType.name + " " + self.logType.name + " " + self.message
+        return str(self.datetime.strftime('%Y-%m-%d-%H-%M-%S-%f')) + " " + self.testType.name + " " + self.logType.name + " " + self.message
 
     def getID(self):
-        return self.datetime
+        return self.TimestampMillisec64()
 
+    def TimestampMillisec64(self):
+        return int((self.datetime - datetime(1970, 1, 1)).total_seconds() * 1000)
