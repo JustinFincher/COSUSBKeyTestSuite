@@ -11,15 +11,17 @@ class LogType(Enum):
 
 class Log:
     datetime = None
+    time = None
     message = ""
     logType = LogType.Info
     testType = TestType.COMMON_EVENT
 
     def __init__(self):
         self.datetime = datetime.now()
+        self.time = time.time()
 
     def stringRepresentation(self):
         return str(self.datetime.strftime('%Y-%m-%d-%H-%M-%S-%f')) + " " + self.testType.name + " " + self.logType.name + " " + self.message
 
     def getID(self):
-        return self.stringRepresentation()
+        return str("%.20f" % self.time)
