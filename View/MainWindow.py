@@ -33,7 +33,7 @@ class MainWindow:
         self.logList = copy.copy(LogManager().logList)
         addedLogIDs = [item for item in updatedLogIDs if item not in currentLogIDs]
 
-        print(str(len(currentLogIDs)) + " " + str(len(updatedLogIDs)) + " " + str(len(addedLogIDs)))
+        # print(str(len(currentLogIDs)) + " " + str(len(updatedLogIDs)) + " " + str(len(addedLogIDs)))
 
         addedLogs = []
         for logID in addedLogIDs:
