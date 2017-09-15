@@ -9,11 +9,29 @@ class TEST_MODIFY_PIN(Test):
 
 
     def run(self):
+
+        # SELECT MF
+        LogManager().addLogStr("WILL SELECT MF", LogType.Info, self.getTestType())
+        dict = Helper().getSelectFileDict(FileLocationType.MF)
+        if (dict != None) and ('statCode' in dict):
+            statCode = dict["statCode"].statCode
+            if statCode != StatCodeType.STAT_CODE_SUCCESS:
+                return False
+
+        # SELECT ADF
+        LogManager().addLogStr("WILL SELECT ADF", LogType.Info, self.getTestType())
+        dict = Helper().getSelectFileDict(FileLocationType.ADF)
+        if (dict != None) and ('statCode' in dict):
+            statCode = dict["statCode"].statCode
+            if statCode != StatCodeType.STAT_CODE_SUCCESS:
+                return False
+
+
         new_pin = "2345"
         pin = "1234"
         hexifiedPin = Helper().getMd5HashHex(new_pin)
         print(hexifiedPin)
-        hexifiedPin.upper().replace("FF", "FE")
+        hexifiedPin = Helper().replaceFFWithFE(hexifiedPin)
         print(hexifiedPin)
 
         randomMsg = Helper().getChallengeMsg()
@@ -22,27 +40,42 @@ class TEST_MODIFY_PIN(Test):
             return False
 
         m = hashlib.md5()
-        m.update(new_pin.encode('utf-8'))
+        newPinUTF8 = new_pin.encode('utf-8')
+        m.update(newPinUTF8)
         h = m.hexdigest().lower()
-        h.replace('ff', 'fe')
+        h = Helper().replaceFFWithFE(h).lower()
         h1 = '5500' + h
-        h2 = str(hex(int(len(h1) / 2)))[2:] + h1
+        h2 = '{:02X}'.format(len(h1)) + h1
         k = pyDes.triple_des(bytes.fromhex('12345678214365871122aabb3344cdef'), pyDes.ECB, b"\0\0\0\0\0\0\0\0",
                              pad=None, padmode=pyDes.PAD_PKCS5)
         h3 = binascii.hexlify(k.encrypt(bytes.fromhex(h2))).decode('utf-8')
-        h40 = '84F40900' + str(hex(int(len(h3) / 2)))[2:] + h3.upper()
-        h41 = '84F40900' + str(hex(int(len(h3) / 2)))[2:] + h3.upper()
-        keyL = '12345678214365871122aabb3344cdef'[0:16]
-        keyR = '12345678214365871122aabb3344cdef'[-16:]
-        if len(h41) % 16 != 0:
-            h41 = h41 + '80'
-        while (len(h41) % 16 != 0):
-            h41 = h41 + '00'
+        h4 = "84F40900" + '{:02X}'.format(len(h3) + 4) + h3.upper()
+        r = randomMsg
+
+        #h40 = '84F40900' + str(hex(int(len(h3) / 2)))[2:] + h3.upper()
+        #h41 = '84F40900' + str(hex(int(len(h3) / 2)))[2:] + h3.upper()
+
+        mac = self.PBOC_3DES_MAC("12345678214365871122aabb3344cdef",r,h4)
+        apdu = h4 + mac.upper()
+        return_msg = DeviceManager().sendAPDUStr(apdu)
+        if return_msg["statCode"].sw1 == '90' and return_msg["statCode"].sw2 == '00':
+            print('TEST_MODIFY_PIN SUCCESS')
+        else :
+            print("TEST_MODIFY_PIN FALSE")
+            return False
+
+    def PBOC_3DES_MAC (self,Key,IV,data):
+        keyL = Key[0:16]
+        keyR = Key[-16:]
+        if len(data) % 16 != 0:
+            data = data + '80'
+        while (len(data) % 16 != 0):
+            data = data + '00'
         n = 16
         l = []
-        for each in ([h41[i:i + n] for i in list(range(0, len(h41), n))]):
+        for each in ([data[i:i + n] for i in list(range(0, len(data), n))]):
             l.append(each)
-        xordata = self.XOR(l[0], randomMsg)
+        xordata = self.XOR(l[0], IV)
         for each in list(range(1, len(l))):
             xordata = self.XOR(l[each], xordata)
 
@@ -55,15 +88,7 @@ class TEST_MODIFY_PIN(Test):
         k = pyDes.des(bytes.fromhex(keyL), pyDes.CBC, b"\0\0\0\0\0\0\0\0", pad=None, padmode=pyDes.PAD_NORMAL)
         m3 = binascii.hexlify(k.encrypt(bytes.fromhex(m2))).decode('utf-8')[0:8]
 
-        apdu = h40 + m3
-        return_msg = DeviceManager.sendAPDUStr(apdu)
-        if return_msg["statCode"].sw1 == '90' and return_msg["statCode"].sw2 == '00':
-            print('TEST_MODIFY_PIN SUCCESS')
-        else :
-            print("TEST_MODIFY_PIN FALSE")
-            return False
-
-
+        return m3
 
     def XOR(self,data_0, data_1):
         a = bytearray(bytes.fromhex(data_0))

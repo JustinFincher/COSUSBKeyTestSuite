@@ -10,7 +10,7 @@ class TEST_VALIDATE_PIN(Test):
         pin = "1234"
         hexifiedPin = Helper().getMd5HashHex(pin)
         print(hexifiedPin)
-        hexifiedPin.upper().replace("FF","FE")
+        hexifiedPin = Helper().replaceFFWithFE(hexifiedPin)
         print(hexifiedPin)
 
         randomMsg = Helper().getChallengeMsg()
@@ -41,7 +41,7 @@ class TEST_VALIDATE_PIN(Test):
 
     @staticmethod
     def getInfo():
-        return "测试 PIN"
+        return "测试验证 PIN"
 
     @staticmethod
     def getTestType():

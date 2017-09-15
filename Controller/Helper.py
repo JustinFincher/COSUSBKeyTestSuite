@@ -183,4 +183,15 @@ class Helper(object,metaclass=Singleton):
         dict = DeviceManager().sendAPDU(apdu)
         print("getGenKeyPairDict Dict = " + str(dict))
         return dict
+
+    def replaceFFWithFE(self,x):
+        chunks, chunk_size = len(x), 2
+        listOfHex =  [ x[i:i+chunk_size] for i in range(0, chunks, chunk_size)]
+        listOfReplacedHex = []
+        for h in listOfHex:
+            listOfReplacedHex.append(h.upper().replace("FF", "FE"))
+
+        res = ''.join(listOfReplacedHex)
+        return res
+
     pass

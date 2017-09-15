@@ -18,7 +18,7 @@ class TEST_GEN_PAR(Test):
             if statCode != StatCodeType.STAT_CODE_SUCCESS:
                 return False
 
-
+        # SELECT ADF
         LogManager().addLogStr("WILL SELECT ADF", LogType.Info, self.getTestType())
         dict = Helper().getSelectFileDict(FileLocationType.ADF)
         if (dict != None) and ('statCode' in dict):
@@ -33,7 +33,7 @@ class TEST_GEN_PAR(Test):
         pin = "1234"
         hexifiedPin = Helper().getMd5HashHex(pin)
         print(hexifiedPin)
-        hexifiedPin.upper().replace("FF", "FE")
+        hexifiedPin = Helper().replaceFFWithFE(hexifiedPin)
         print(hexifiedPin)
 
         randomMsg = Helper().getChallengeMsg()
@@ -68,11 +68,6 @@ class TEST_GEN_PAR(Test):
             statCode = dict["statCode"].statCode
             if statCode != StatCodeType.STAT_CODE_SUCCESS:
                 return False
-
-        # GET CHALLENGE
-        # LogManager().addLogStr("WILL GET CHALLENGE", LogType.Info, self.getTestType())
-        # challenge = Helper().getChallengeMsg()
-        # LogManager().addLogStr("CHALLENGE = " + str(challenge), LogType.Info, self.getTestType())
 
         # GEN PAR
         LogManager().addLogStr("WILL GEN PAIR", LogType.Info, self.getTestType())
