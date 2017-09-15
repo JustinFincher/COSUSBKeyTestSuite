@@ -12,7 +12,7 @@ class TEST_SELECT_FILE(Test):
         testResList = []
         testResList.append(self.getSelectFileBool(FileLocationType.MF))
         testResList.append(self.getSelectFileBool(FileLocationType.ADF))
-        testResList.append(self.getSelectFileBool(FileLocationType.IKF))
+        testResList.append(self.getSelectFileBool(FileLocationType.MF))
 
         for isSuccessful in testResList:
             res = res and isSuccessful

@@ -53,13 +53,15 @@ class TestManager(object,metaclass=Singleton):
         return all_subclasses
 
     def runTest(self,name):
+        from Data.Log import LogType
+
         LogManager().addLogStr("Will Run Test " + str(name))
         print("runTest -> " + name)
         for test in self.testClassesList:
             if test["Info"] == name:
                 print("test.getInfo() == name:")
                 result = test["Class"]().run()
-                LogManager.addLogStr("Test Run Finished With Result = " + str(result))
+                LogManager().addLogStr("Test Run Finished With Result = " + str(result),LogType.Info,test["Class"].getTestType())
                 print("Test Run Finished With Result = "+str(result))
 
     pass
