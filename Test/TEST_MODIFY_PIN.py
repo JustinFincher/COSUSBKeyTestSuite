@@ -65,8 +65,11 @@ class TEST_MODIFY_PIN(Test):
             return False
 
     def PBOC_3DES_MAC (self,Key,IV,data):
+        # 把Key分成二半，前8字节KeyL和后8字节KeyR
         keyL = Key[0:16]
         keyR = Key[-16:]
+
+        # 把data按8字节分组，如果最后一组不够8字节，在最后一组末尾补一个80和若干个00，直到8字节；
         if len(data) % 16 != 0:
             data = data + '80'
         while (len(data) % 16 != 0):

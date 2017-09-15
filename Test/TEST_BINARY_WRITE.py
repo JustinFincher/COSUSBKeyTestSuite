@@ -6,8 +6,8 @@ class TEST_BINARY_WRITE(Test):
     def run(self):
         superResult = super().run()
 
-        hexToWrite = "00D60000"
-        # hexToWrite = "11111111"
+        # hexToWrite = "00D60000"
+        hexToWrite = "11111111"
 
         dict = Helper().getSelectFileDict(FileLocationType.MF)
         if (dict != None) and ('statCode' in dict):
@@ -47,7 +47,7 @@ class TEST_BINARY_WRITE(Test):
             if statCode != StatCodeType.STAT_CODE_SUCCESS:
                 return False
 
-        LogManager().addLogStr("WRITE 0000 to " + str(hexToWrite) + " Res = " + str(dict["msg"]), LogType.Info, self.getTestType())
+        LogManager().addLogStr("WRITE" +  str(hexToWrite) + "to 00000000 " + " Res = " + str(dict["msg"]), LogType.Info, self.getTestType())
 
         dict = Helper().getBinaryReadDict("00", "00", "04")
         if (dict != None) and ('statCode' in dict):

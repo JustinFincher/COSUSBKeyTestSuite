@@ -86,11 +86,11 @@ class Helper(object,metaclass=Singleton):
         return dict
 
 
-    def getVerifyPinDict(self,data):
+    def getVerifyPinDict(self,data,KID = "00"):
         apdu = APDU({"CLA": "00",
                      "INS": "82",
                      "P1": "00",
-                     "P2": "00",
+                     "P2": KID,
                      "Lc": "08",
                      "Data": data,
                      "Le": None})
