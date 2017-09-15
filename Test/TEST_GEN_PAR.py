@@ -18,6 +18,16 @@ class TEST_GEN_PAR(Test):
             if statCode != StatCodeType.STAT_CODE_SUCCESS:
                 return False
 
+
+        LogManager().addLogStr("WILL SELECT ADF", LogType.Info, self.getTestType())
+        dict = Helper().getSelectFileDict(FileLocationType.ADF)
+        if (dict != None) and ('statCode' in dict):
+            statCode = dict["statCode"].statCode
+            if statCode != StatCodeType.STAT_CODE_SUCCESS:
+                return False
+
+
+
         # VALIDATE PIN
         LogManager().addLogStr("WILL VALIDATE PIN", LogType.Info, self.getTestType())
         pin = "1234"
@@ -53,7 +63,7 @@ class TEST_GEN_PAR(Test):
 
         # MSE
         LogManager().addLogStr("WILL SET UP MSE", LogType.Info, self.getTestType())
-        dict = Helper().getMSEGenParDict("00", "22", 4)
+        dict = Helper().getMSEGenParDict("01", "22", 4)
         if (dict != None) and ('statCode' in dict):
             statCode = dict["statCode"].statCode
             if statCode != StatCodeType.STAT_CODE_SUCCESS:
